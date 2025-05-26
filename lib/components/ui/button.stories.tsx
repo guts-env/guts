@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Button from "./button";
-import { Search } from "lucide-react";
+import Button, { type ButtonProps } from "./Button";
+import { Loader, Search } from "lucide-react";
+import { useState } from "react";
 
 const meta = {
-  title: "UI/Button",
+  title: "Form/Button",
   component: Button,
   parameters: {
     layout: "centered",
@@ -77,9 +78,62 @@ export const Icon: Story = {
   },
 };
 
+export const WithIcon: Story = {
+  args: {
+    size: "default",
+    children: (
+      <>
+        <Search />
+        <span>Search</span>
+      </>
+    ),
+    variant: "outline",
+  },
+};
+
 export const Disabled: Story = {
   args: {
     disabled: true,
     children: "Disabled",
   },
+};
+
+const LoadingButton = (args: ButtonProps) => {
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <Button {...args} loading={loading} onClick={() => setLoading(true)} />
+  );
+};
+
+export const Loading: Story = {
+  args: {
+    children: "Click Me",
+  },
+  render: (args) => <LoadingButton {...args} />,
+};
+
+export const LoadingCustomIcon: Story = {
+  args: {
+    loadingIcon: <Loader className="animate-spin" />,
+    children: "Click Me",
+  },
+  render: (args) => <LoadingButton {...args} />,
+};
+
+export const LoadingCustomText: Story = {
+  args: {
+    loadingText: "Custom loading text...",
+    children: "Click Me",
+  },
+  render: (args) => <LoadingButton {...args} />,
+};
+
+export const LoadingCustomTextAndIcon: Story = {
+  args: {
+    loadingText: "Custom loading text and icon...",
+    loadingIcon: <Loader className="animate-spin" />,
+    children: "Click Me",
+  },
+  render: (args) => <LoadingButton {...args} />,
 };
